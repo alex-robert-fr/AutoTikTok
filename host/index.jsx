@@ -1,7 +1,7 @@
-function mogrtImport(start, end, clip, textValue) {
+﻿function mogrtImport(start, end, clip, textValue, videoTrack) {
     var project = app.project;
     var sequence = project.activeSequence;
-    var mogrtClip = sequence.importMGTFromLibrary("Votre bibliothèque", "Simple Subtitle", start, 6, 0);
+    var mogrtClip = sequence.importMGTFromLibrary("Votre bibliothèque", "Simple Subtitle", start, videoTrack - 1, 0);
     if (mogrtClip) {
         mogrtClip.start = start;
         mogrtClip.end = end;
@@ -39,11 +39,16 @@ function parseCSVLine(line) {
 
 
 
-function display() {
+function display(path, nbVideoTrack, newVideoTrack) {
     var project = app.project;
     var sequence = project.activeSequence;
 
-    var file = File("D:/BOULOT/TikTok/mogrt/TikTok31.csv");
+    if (!sequence) {
+        alert("Aucune séquence active trouvée");
+        return;
+    }
+
+    var file = File(path);
     if (file.open("r")) {
         var content = file.read();
         file.close();
@@ -61,11 +66,21 @@ function display() {
         }
     }
 
-    var videoTrack6 = sequence.videoTracks[5];
+    var videoTrack = sequence.videoTracks[nbVideoTrack - 1];
 
-    for (var j = 0; j < videoTrack6.clips.numItems && j < texts.length; j++) {
-        var textStart = videoTrack6.clips[j].start.ticks;
-        var textEnd = videoTrack6.clips[j].end.ticks;
-        mogrtImport(textStart, textEnd, videoTrack6.clips[j], texts[j]);
+    for (var j = 0; j < videoTrack.clips.numItems && j < texts.length; j++) {
+        var textStart = videoTrack.clips[j].start.ticks;
+        var textEnd = videoTrack.clips[j].end.ticks;
+        mogrtImport(textStart, textEnd, videoTrack.clips[j], texts[j], newVideoTrack);
     }  
+}
+
+
+function getFile() {
+    var myFile = File.openDialog("Sélectionnez un fichier");
+    if (myFile) {
+        return myFile.fsName;
+    } else {
+        return "Aucun fichier sélectionné";
+    }
 }

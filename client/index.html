@@ -3,13 +3,27 @@
 <head>
     <meta charset="utf-8">
     <title>Auto Tiktok</title>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <!-- 1) Simple HTML UI elements to get us started -->
     <h1>Auto Tiktok</h1>
 
+    <ol>
+        <li>Générer la transcription</li>
+        <li>Générer les sous-titre</li>
+        <li>Exporter en CSV</li>
+        <li>[ Ou se trouve le fichier ]</li>
+        <button id="fileInput">Parcourir</button>
+        <p id="name-file">Pas de fichier</p>
+        <li>Mettre a niveau la légende vers le graphique</li>
+        <li>Sur quelle piste vidéo ce trouve les sous-titre</li>
+        <input id="nb-video-track" type="number"/>
+        <li>Sur quelle piste vidéo veux tu générer les nouveau sous-titre</li>
+        <input id="nb-new-video-track" type="number"/>
+    </ol>
     <!-- 2) A button -->
-    <button id="open-button">Open</button>
+    <button id="open-button">Générer</button>
 
     <!-- 3) Add your script dependencies here, including CEP's CSInterface.js library -->
     <script type="text/javascript" src="CSInterface.js"></script>
